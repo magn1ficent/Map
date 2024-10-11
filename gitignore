@@ -1,0 +1,15 @@
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Visual Studio Code settings
+.vscode/
+
+# IDE/Editor specific files
+*.iml
+.idea/
+*.sublime-workspace
+*.sublime-project
