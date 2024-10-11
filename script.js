@@ -1,69 +1,72 @@
 // Инициализация карты
-var map = L.map('map').setView([51.505, -0.09], 13);
+const map = L.map('map').setView([53.484098, 64.195314], 13);
 
-// Добавление тайлов OpenStreetMap
-var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19
+// Слои карты
+const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// Добавление маркеров
-var marker1 = L.marker([51.5, -0.09]).addTo(map);
-marker1.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-
-var marker2 = L.marker([51.515, -0.1]).addTo(map);
-marker2.bindPopup("<b>Another place!</b><br>This is a second popup.");
-
-// Добавление пользовательской иконки для маркера
-var customIcon = L.icon({
-  iconUrl: 'path_to_icon.png',  // Замените на путь к вашей иконке
-  iconSize: [38, 38],  // Размер иконки
-  iconAnchor: [22, 38],  // Точка привязки маркера к координатам
+const satelliteLayer = L.tileLayer('https://{s}.google.com/vt?x={x}&y={y}&z={z}&s=Ga', {
+    maxZoom: 20,
+    attribution: '© Google Maps'
 });
-var marker3 = L.marker([51.525, -0.12], { icon: customIcon }).addTo(map);
-marker3.bindPopup("<b>Custom Icon!</b><br>This is a custom icon marker.");
 
-// Добавление управления слоями
-var satellite = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png');
-var baseMaps = {
-  "Streets": streets,
-  "Satellite": satellite
+// Добавление слоя по умолчанию
+streetLayer.addTo(map);
+
+// Переключение слоев
+const baseLayers = {
+    "Map": streetLayer,
+    "Satellite": satelliteLayer
 };
-L.control.layers(baseMaps).addTo(map);
 
-// Функция для геокодирования и поиска мест
-function geocodeLocation(location) {
-  var geocodingAPI = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location);
-  
-  fetch(geocodingAPI)
-    .then(response => response.json())
-    .then(data => {
-      if (data.length > 0) {
-        var lat = data[0].lat;
-        var lon = data[0].lon;
-        map.setView([lat, lon], 13);  // Центрируем карту на найденном месте
-        L.marker([lat, lon]).addTo(map)
-          .bindPopup("<b>" + location + "</b>")
-          .openPopup();
-      } else {
-        alert("Location not found.");
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching location:", error);
-    });
-}
+L.control.layers(baseLayers).addTo(map);
 
-// Обработчик события для формы
-document.getElementById('searchForm').addEventListener('submit', function(e) {
-  e.preventDefault();  // Предотвращаем перезагрузку страницы
-  var location = document.getElementById('locationInput').value;
-  geocodeLocation(location);
+// Инициализация маршрутизатора
+const control = L.Routing.control({
+    waypoints: [
+        L.latLng(53.484098, 64.195314), // Начальная точка
+        L.latLng(53.4870, 64.2053) // Конечная точка (пример)
+    ],
+    routeWhileDragging: true
+}).addTo(map);
+
+// Создание пользовательских иконок
+const startIcon = L.icon({
+    iconUrl: 'path/to/start-icon.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
 });
 
-// Обработка события клика на карте
+const endIcon = L.icon({
+    iconUrl: 'path/to/end-icon.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+});
+
+let startMarker, endMarker;
+
+// Переменные для отслеживания состояния маркеров
+let startPointSet = false;
+let endPointSet = false;
+
+// Обработка кликов по карте для установки начальной и конечной точки маршрута
 map.on('click', function(e) {
-  var clickedLocation = e.latlng;
-  L.marker(clickedLocation).addTo(map)
-    .bindPopup("You clicked here: " + clickedLocation)
-    .openPopup();
+    const latlng = e.latlng;
+
+    if (!startPointSet) {
+        // Установка начальной точки маршрута
+        control.spliceWaypoints(0, 1, latlng); // Обновляем начальную точку
+        startPointSet = true;
+    } else if (!endPointSet) {
+        // Установка конечной точки маршрута
+        control.spliceWaypoints(control.getWaypoints().length - 1, 1, latlng); // Обновляем конечную точку
+        endPointSet = true;
+    } else {
+        // Если обе точки установлены, сбрасываем начальную точку и устанавливаем новую
+        control.spliceWaypoints(0, 1, latlng); // Обновляем начальную точку
+        // Если хотите сбросить конечную точку, раскомментируйте следующую строку
+        endPointSet = false; 
+    }
 });
