@@ -4,7 +4,7 @@ With the help of this project, users will be able to search for and examine loca
 
 # Features
 
-Location Search: to locate a location on a map, users can enter it.
-Clickable Map: to add markers at particular places, click on the map.
-Responsive Design: the application functions effectively on a range of screens and devices.
-Popups: When a user clicks on markers or locations, information is displayed.
+*Location Search:* to locate a location on a map, users can enter it.
+**Clickable Map:** to add markers at particular places, click on the map.
+**Responsive Design:** the application functions effectively on a range of screens and devices.
+*Popups:* When a user clicks on markers or locations, information is displayed.
