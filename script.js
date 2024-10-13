@@ -47,7 +47,6 @@ const endIcon = L.icon({
 
 let startMarker, endMarker;
 
-// Переменные для отслеживания состояния маркеров
 let startPointSet = false;
 let endPointSet = false;
 
