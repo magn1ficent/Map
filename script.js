@@ -54,15 +54,20 @@ let endPointSet = false;
 map.on('click', function(e) {
     const latlng = e.latlng;
 
-    if (!startPointSet) {
+    if (!startPointSet)
+    {
         // Установка начальной точки маршрута
         control.spliceWaypoints(0, 1, latlng); // Обновляем начальную точку
         startPointSet = true;
-    } else if (!endPointSet) {
+    }
+    else if (!endPointSet)
+    {
         // Установка конечной точки маршрута
         control.spliceWaypoints(control.getWaypoints().length - 1, 1, latlng); // Обновляем конечную точку
         endPointSet = true;
-    } else {
+    }
+    else
+    {
         // Если обе точки установлены, сбрасываем начальную точку и устанавливаем новую
         control.spliceWaypoints(0, 1, latlng); // Обновляем начальную точку
         // Если хотите сбросить конечную точку, раскомментируйте следующую строку
