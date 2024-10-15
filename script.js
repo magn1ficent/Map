@@ -2,12 +2,12 @@
 const map = L.map('map').setView([53.484098, 64.195314], 13);
 
 // Слои карты
-const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const streetLayer = L.tileLayer ('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-const satelliteLayer = L.tileLayer('https://{s}.google.com/vt?x={x}&y={y}&z={z}&s=Ga', {
+const satelliteLayer = L.tileLayer ('https://{s}.google.com/vt?x={x}&y={y}&z={z}&s=Ga', {
     maxZoom: 20,
     attribution: '© Google Maps'
 });
@@ -51,7 +51,7 @@ let startPointSet = false;
 let endPointSet = false;
 
 // Обработка кликов по карте для установки начальной и конечной точки маршрута
-map.on('click', function(e) {
+map.on ('click', function(e){
     const latlng = e.latlng;
 
     if (!startPointSet)
