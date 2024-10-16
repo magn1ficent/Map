@@ -50,7 +50,7 @@ let startMarker, endMarker;
 let startPointSet = false;
 let endPointSet = false;
 
-// Обработка кликов по карте для установки начальной и конечной точки маршрута
+// Обработка кликов по карте для установки точек маршрута
 map.on ('click', function(e){
     const latlng = e.latlng;
 
