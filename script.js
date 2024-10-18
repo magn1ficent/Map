@@ -63,13 +63,13 @@ map.on ('click', function(e){
     else if (!endPointSet)
     {
         // Установка конечной точки маршрута
-        control.spliceWaypoints(control.getWaypoints().length - 1, 1, latlng); // Обновляем конечную точку
+        control.spliceWaypoints (control.getWaypoints().length - 1, 1, latlng); // Обновляем конечную точку
         endPointSet = true;
     }
     else
     {
         // Если обе точки установлены, сбрасываем начальную точку и устанавливаем новую
-        control.spliceWaypoints(0, 1, latlng); // Обновляем начальную точку
+        control.spliceWaypoints (0, 1, latlng); // Обновляем начальную точку
         
         // Если хотите сбросить конечную точку, раскомментируйте следующую строку
         endPointSet = false;
